@@ -11,6 +11,9 @@ import java.io.File
 // =====   Entities   =====
 class Actor : EnumEntity(stemming = true, speechRecPhrases = true){
     override fun getEnum(lang: Language): List<String> {
+
+        val path = System.getProperty("user.dir")
+        println("Using: $path/data/actors.csv")
         return File("data/actors.csv").useLines {it.toList()}
         // return listOf("Johnny Depp", "Tom Cruise", "Kiera Nightly",
         // "Jennifer Lawrence") // List imported from database
