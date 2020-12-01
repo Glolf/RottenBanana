@@ -5,11 +5,15 @@ import furhatos.nlu.Intent
 import furhatos.nlu.ListEntity
 import furhatos.util.Language
 
+
+import java.io.File
+
 // =====   Entities   =====
 class Actor : EnumEntity(stemming = true, speechRecPhrases = true){
     override fun getEnum(lang: Language): List<String> {
-        return listOf("Johnny Depp", "Tom Cruise", "Kiera Nightly",
-        "Jennifer Lawrence") // List imported from database
+        return File("data/actors.csv").useLines {it.toList()}
+        // return listOf("Johnny Depp", "Tom Cruise", "Kiera Nightly",
+        // "Jennifer Lawrence") // List imported from database
     }
 }
 

@@ -27,11 +27,17 @@ val OverviewState : State = state(Interaction){
             }
             + " "
              random{
-                + "Which actor do you want to see in the movie?",
+                + "Which actor do you want to see in the movie?"
                  + "the genre of the movie?"
                 // Other entities.
             }
         })
+    }
+
+    onResponse<SelectActor>{
+        //furhat.say("Which actor would you like to see?")
+        furhat.say("Ohh, ${it.intent.actor}?")
+        goto(Idle)
     }
 
     // Actor intent
@@ -53,11 +59,16 @@ val OverviewState : State = state(Interaction){
 
 val FirstState : State = state(OverviewState){
     // User don't want a movie recommendation
+    onEntry {
+        furhat.ask("Do you have any preferenes?")
+    }
+
     onResponse<No>{
         random({furhat.say("Okay, have a nice day!")},
                 {furhat.say("Oh, too bad. I had a good one for you!")})
         goto(Idle)
     }
+
 }
 
 val MainState : State = state(OverviewState){
