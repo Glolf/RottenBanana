@@ -11,12 +11,10 @@ import java.io.File
 // =====   Entities   =====
 class Actor : EnumEntity(stemming = true, speechRecPhrases = true){
     override fun getEnum(lang: Language): List<String> {
-
-        val path = System.getProperty("user.dir")
-        println("Using: $path/data/actors.csv")
-        return File("data/actors.csv").useLines {it.toList()}
-        // return listOf("Johnny Depp", "Tom Cruise", "Kiera Nightly",
-        // "Jennifer Lawrence") // List imported from database
+        //val path = System.getProperty("user.dir")
+        //println("Using: $path/data/actors.csv")
+        //return File("data/actors.csv").useLines {it.toList()}
+        return listOf("Johnny Depp", "Tom Cruise", "Kiera Nightly", "Jennifer Lawrence") // List imported from database
     }
 }
 
@@ -37,6 +35,8 @@ class Genre : EnumEntity(stemming = true, speechRecPhrases = true) {
 
 class ActorList : ListEntity<Actor>()
 
+class GenreList : ListEntity<Genre>()
+
 // List of genres....
 
 
@@ -44,9 +44,15 @@ class ActorList : ListEntity<Actor>()
 
 // =====   Intents    =====
 
-class SelectActor(val actor: Actor? = null) : Intent() {
+class SelectActor(val actors: ActorList? = null) : Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("@actor", "I want to see @actor") // Write more examples.
+        return listOf("@actors", "I want to see @actors") // Write more examples.
+    }
+}
+
+class SelectGenre(val genres: GenreList? = null) : Intent() {
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("@genres", "I want to see a @genres movie")
     }
 }
 
