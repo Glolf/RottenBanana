@@ -24,12 +24,48 @@ class Actor : EnumEntity(stemming = true, speechRecPhrases = true){
     }
 }
 
-class Genre : EnumEntity(stemming = true, speechRecPhrases = true) {
+/*class Genre3 : EnumEntity(stemming = true, speechRecPhrases = true) {
+    /**
+     * Defines what a genre is from file.
+     */
+
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("Romance","Animated","Comedy","Musical","Thriller") //Import from database.
+    }
+}
+*/
+
+
+
+
+class Genre: EnumEntity(stemming = true, speechRecPhrases = true) {
     /**
      * Defines what a genre is from file.
      */
     override fun getEnum(lang: Language): List<String> {
-        return listOf("Romance","Animated","Comedy","Musical","Thriller") //Import from database.
+        return listOf("Action:Action",
+               "Adventure:Adventure",
+                "Animation:Animation",
+                "Comedy:Comedy,Funny",
+                "Crime:Crime",
+                "Documentary:Documentary",
+                "Drama:Drama",
+                "Family:Family",
+                "Fantasy:Fantasy",
+                "History:History",
+                "Horror:Horror",
+                "Music:Music",
+                "Mystery:Mystery",
+                "Romance:Romance,Romantic",
+                "Science Fiction:Science Fiction, Sci-fi",
+                "TV_Movie:TV Movie",
+                "Thriller:Thriller",
+                "War:War",
+                "Western:Western") //Import from database.
+    }
+
+    override fun toText(): String {
+        return generate("$value")
     }
 }
 

@@ -1,0 +1,4 @@
+16:30:19 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+16:30:20 [MovierecomenderSkill] INFO  MovierecomenderSkill:166 - Starting skill
+16:30:27 [MovierecomenderSkill] WARN  Flow: 93 - Flow unknown unresponsive, 1234 ms since last event poll
+16:31:13 [MovierecomenderSkill] WARN  Flow: 93 - Flow unknown unresponsive, 30522 ms since last event poll

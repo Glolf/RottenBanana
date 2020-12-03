@@ -427,8 +427,18 @@ fun SelectGenre(genres : GenreList) : State = state(OverviewState){
     onEntry{
         //furhat.say("Ok, I add ${genres.text} to your preferred actors")
         genres.list.forEach{
-            println(it)
-            users.current.selectedGenres.genres.list.add(it)
+            //println(it)
+            //println(it.value)
+            if (!users.current.selectedGenres.genres.list.contains(it)) {
+                users.current.selectedGenres.genres.list.add(it)
+            }
+
+            if (users.current.deselectedGenres.genres.list.contains(it)) {
+                users.current.deselectedGenres.genres.list.remove(it)
+                furhat.say{ random{+"You said before that you don't want to see ${it}, I assume you have changed your mind."
+                                    +"Changing our minds, are we? You said you didn't want to see ${it}. I have changed your preferences. "}}
+            }
+
         }
         furhat.say("You wish to see the folowing genres ${users.current.selectedGenres.genres}")
         furhat.ask({
@@ -484,8 +494,15 @@ fun DeselectGenre(genres : GenreList) : State = state(OverviewState){
     onEntry{
         //furhat.say("Ok, I add ${genres.text} to your preferred actors")
         genres.list.forEach{
-            println(it)
-            users.current.deselectedGenres.genres.list.add(it)
+            if (!users.current.deselectedGenres.genres.list.contains(it)) {
+                users.current.deselectedGenres.genres.list.add(it)
+            }
+
+            if (users.current.selectedGenres.genres.list.contains(it)) {
+                users.current.selectedGenres.genres.list.remove(it)
+                furhat.say{ random{+"You said before that you want to see ${it}, I assume you have changed your mind."
+                    +"Changing our minds, are we? You said you wanted to see ${it}. I have changed your preferences. "}}
+            }
         }
         furhat.say("Ok, I have noted that you don't wish to see movies with the genre ${users.current.deselectedGenres.genres}")
         furhat.ask({

@@ -41,14 +41,14 @@ class GenreData(
         /**
          * "Variable" for storing selected genres
          */
-        var genres : GenreList = GenreList()
+        var genres : GenreList = GenreList() // TODO - The class is found in genres.value. Note to when we export
 )
 
 class NotGenreData(
         /**
          * "Variable" for storing deselected genres
          */
-        var genres : GenreList = GenreList()
+        var genres : GenreList = GenreList() // TODO - The class is found in genres.value. Note to when we export
 )
 
 val User.selectedGenres : GenreData
