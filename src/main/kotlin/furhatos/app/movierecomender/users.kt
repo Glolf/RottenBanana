@@ -5,6 +5,9 @@ import furhatos.nlu.common.Date
 import furhatos.records.User
 import furhatos.nlu.common.Number
 
+
+
+
 class ActorsData(
         /**
          * "Variable" for storing selected actors
@@ -61,6 +64,7 @@ val User.deselectedGenres : NotGenreData
     get() = data.getOrPut(NotGenreData::class.qualifiedName, NotGenreData())
 
 
+
 //Rating
 class RatingData(
         /**
@@ -85,3 +89,39 @@ class YearData(
 val User.yearPreferences : YearData
     get() = data.getOrPut(YearData::class.qualifiedName, YearData())
 // rest of entities.
+
+
+fun mapToString(m : Map <String, String>) : String {
+  var out = "{"
+  var first = true;
+  m.forEach {
+      k,v -> run {  if (first){
+                      first = false;
+                    } else {
+                      out += ","
+                    }
+                    out += "\"$k\": $v" }
+  }
+  out += "}"
+  return out
+}
+
+fun User.preferences() : String {
+    var prefs = mapOf(
+        "actors" to mapToString(mapOf(
+           "selected" to this.selectedActors.actors.list.map({"\"$it\""}).toString(),
+           "deselected" to this.deselectedActors.actors.list.map({"\"$it\""}).toString()
+        )),
+        "genres" to mapToString(mapOf(
+           "selected" to this.selectedGenres.genres.list.map({"\"$it\""}).toString(),
+           "deselected" to this.deselectedGenres.genres.list.map({"\"$it\""}).toString()
+        )),
+        "years" to mapToString(mapOf(
+           "lower" to this.yearPreferences.lowerYear.toString(),
+           "upper" to this.yearPreferences.upperYear.toString()
+        )),
+        "rating" to this.rating.ratingVal.toString()
+        )
+
+    return mapToString(prefs)
+};

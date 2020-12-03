@@ -18,6 +18,7 @@ val Start : State = state(Interaction) {
                 + "Greetings"
             }
         }
+        println(users.current.preferences())
         goto(FirstState)
     }
 }
@@ -186,6 +187,7 @@ val MainState : State = state(OverviewState){
      *
      */
     onEntry{
+        println(users.current.preferences())
         furhat.ask({
             random{
                 + "Any other preferences?"
@@ -256,6 +258,7 @@ val MainState : State = state(OverviewState){
     }
 
     onResponse<No>{
+        println(users.current.preferences())
         furhat.say{
             + "Your preferences are the following."
             if (!users.current.selectedGenres.genres.list.isNullOrEmpty()){
@@ -306,8 +309,9 @@ fun SelectActor(actors : ActorList) : State = state(OverviewState){
     onEntry{
         //furhat.say("Ok, I add ${actors.text} to your preferred actors")
         actors.list.forEach{
-            print(it)
+            println(it)
             users.current.selectedActors.actors.list.add(it)
+            println(users.current.preferences())
         }
         furhat.say("You wish to see ${users.current.selectedActors.actors}")
         furhat.ask({
@@ -363,7 +367,7 @@ fun DeselectActor(actors : ActorList) : State = state(OverviewState){
     onEntry{
         //furhat.say("Ok, I add ${actors.text} to your preferred actors")
         actors.list.forEach{
-            print(it)
+            println(it)
             users.current.deselectedActors.actors.list.add(it)
         }
         furhat.say("Ok, I have noted that you don't wish to see ${users.current.deselectedActors.actors}")
@@ -423,10 +427,10 @@ fun SelectGenre(genres : GenreList) : State = state(OverviewState){
     onEntry{
         //furhat.say("Ok, I add ${genres.text} to your preferred actors")
         genres.list.forEach{
-            print(it)
+            println(it)
             users.current.selectedGenres.genres.list.add(it)
         }
-        furhat.say("You wish to see the folowin genres ${users.current.selectedGenres.genres}")
+        furhat.say("You wish to see the folowing genres ${users.current.selectedGenres.genres}")
         furhat.ask({
             random{
                 + "Any other genres you would like to see?"
@@ -480,7 +484,7 @@ fun DeselectGenre(genres : GenreList) : State = state(OverviewState){
     onEntry{
         //furhat.say("Ok, I add ${genres.text} to your preferred actors")
         genres.list.forEach{
-            print(it)
+            println(it)
             users.current.deselectedGenres.genres.list.add(it)
         }
         furhat.say("Ok, I have noted that you don't wish to see movies with the genre ${users.current.deselectedGenres.genres}")
