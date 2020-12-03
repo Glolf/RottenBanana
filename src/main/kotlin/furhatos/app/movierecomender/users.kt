@@ -1,9 +1,9 @@
 package furhatos.app.movierecomender
 
-import furhatos.app.movierecomender.nlu.ActorList
-import furhatos.app.movierecomender.nlu.Genre
-import furhatos.app.movierecomender.nlu.GenreList
+import furhatos.app.movierecomender.nlu.*
+import furhatos.nlu.common.Date
 import furhatos.records.User
+import furhatos.nlu.common.Number
 
 class ActorsData(
         /**
@@ -61,6 +61,27 @@ val User.deselectedGenres : NotGenreData
     get() = data.getOrPut(NotGenreData::class.qualifiedName, NotGenreData())
 
 
+//Rating
+class RatingData(
+        /**
+         * "Variable" for storing rating, defaults to 0
+         */
+        var ratingVal : Number? = Number()
+)
+
+val User.rating : RatingData
+    /**
+     * "Variable" for storing rating
+     */
+    get() = data.getOrPut(RatingData::class.qualifiedName, RatingData())
+
 //year.
 
+class YearData(
+        var lowerYear : Number? = Number(),
+        var upperYear : Number? = Number()
+)
+
+val User.yearPreferences : YearData
+    get() = data.getOrPut(YearData::class.qualifiedName, YearData())
 // rest of entities.
