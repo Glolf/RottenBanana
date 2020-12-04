@@ -24,18 +24,7 @@ class Actor : EnumEntity(stemming = true, speechRecPhrases = true){
     }
 }
 
-/*class Genre3 : EnumEntity(stemming = true, speechRecPhrases = true) {
-    /**
-     * Defines what a genre is from file.
-     */
-
-    override fun getEnum(lang: Language): List<String> {
-        return listOf("Romance","Animated","Comedy","Musical","Thriller") //Import from database.
-    }
-}
-*/
-
-class Companies : EnumEntity(stemming = true, speechRecPhrases = true){
+class Company : EnumEntity(stemming = true, speechRecPhrases = true){
     /**
      * Defines what an actor is from file
      */
@@ -47,18 +36,36 @@ class Companies : EnumEntity(stemming = true, speechRecPhrases = true){
     }
 }
 
-class origLanguage : EnumEntity(stemming = true, speechRecPhrases = true){
+class OrigLanguage : EnumEntity(stemming = true, speechRecPhrases = true){
+    /**
+     * Defines what an actor is from file
+     */
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("german:German, Germany",
+                "english:English, American, USA,England, UK",
+                "spanish:Spanish, Spain",
+                "french:French, France",
+                "italian:Italian, Italy",
+                "swedish:Swedish, Sweden"
+        )
+    }
+
+    override fun toText(): String {
+        return generate("$value")
+    }
+}
+
+class Director : EnumEntity(stemming = true, speechRecPhrases = true){
     /**
      * Defines what an actor is from file
      */
     override fun getEnum(lang: Language): List<String> {
         val path = System.getProperty("user.dir")
         //println("Using: $path/data/actors.csv")
-        //return File("data/languages.csv").useLines {it.toList()}
-        return listOf("English","Swedish","German") // List imported from database
+        //return File("data/directors.csv").useLines {it.toList()}
+        return listOf("Johnny Depp", "Tom Cruise", "Jennifer Lawrence") // List imported from database
     }
 }
-
 
 class Genre: EnumEntity(stemming = true, speechRecPhrases = true) {
     /**
@@ -92,15 +99,6 @@ class Genre: EnumEntity(stemming = true, speechRecPhrases = true) {
     }
 }
 
-// Year
-
-
-// Runtime
-
-// Gender of lead.
-
-// Keywords ????
-
 
 class ActorList : ListEntity<Actor>()
 /**
@@ -113,8 +111,11 @@ class GenreList : ListEntity<Genre>()
  */
 
 // List of genres....
+class DirectorList : ListEntity<Director>()
 
+class OrigLanguageList : ListEntity<OrigLanguage>()
 
+class CompanyList : ListEntity<Company>()
 
 
 // =====   Intents    =====
@@ -162,7 +163,7 @@ class PreferredYears(
         ) : Intent(){
     override fun getExamples(lang: Language): List<String> { // It can't listen to older than, I don't know why?!?!
         return listOf("before @upperYear","In @lowerYear","from @lowerYear","older than @upperYear","after @lowerYear",
-                "newer than @lowerYear","Later than @lowerYear",
+                "newer than @lowerYear","Later than @lowerYear","from @lowerYear to @upperYear",
                 "Between @lowerYear and @upperYear","The movie should be before @upperYear", "The movie should be after @lowerYear",
                 "I want to see a movie that is newer than @lowerYear","I want to see a movie that is older than @upperYear"
 
@@ -176,18 +177,62 @@ class Rating(val rating: Number? = null) : Intent(){ // Borde inte vara Number? 
     }
 }
 
+class SelectDirector(val directors: DirectorList? = null) : Intent() {
+    /**
+     * Defines what user can say to be recognised as a select actor intent.
+     */
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("By @directors","director @directors", "of @directors", "directed by @directors", "created by @directors","like @directors","love @directors") // Write more examples.
+    }
+}
 
+class DeselectDirector(val directors: DirectorList? = null) : Intent() {
+    /**
+     * Defines what user can say to be recognised as a deselect actor intent.
+     */
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("Not by @directors","director should not be @directors", "not of @directors", "not directed by @directors", "not created by @directors", "hate @directors", "dislike @directors") // Write more examples.
+    }
+}
 
+class SelectCompany(val companies: CompanyList? = null) : Intent() {
+    /**
+     * Defines what user can say to be recognised as a select actor intent.
+     */
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("@companies","By @companies","from @companies", "of @companies", "created by @companies", "like @companies") // Write more examples.
+    }
+}
 
-// Before @second year, after @first year. In between @ first year and @ second year.
-// val secYear: Date = null ??????
+class DeselectCompany(val companies: CompanyList? = null) : Intent() {
+    /**
+     * Defines what user can say to be recognised as a select actor intent.
+     */
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("Not by @companies","not from @companies", "not of @companies", "not created by @companies", "dislike @companies") // Write more examples.
+    }
+}
 
-// Intents for all entities
+class SelectMyLanguage(val myLanguage: OrigLanguageList? = null) : Intent() {
+    /**
+     * Defines what user can say to be recognised as a select actor intent.
+     */
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("@myLanguage","talk @myLanguage","speak @myLanguage", "from @myLanguage", "like @myLanguage") // Write more examples.
+    }
+}
 
-// Intents for deSelecting entities.
+class DeselectMyLanguage(val myLanguage: OrigLanguageList? = null) : Intent() {
+    /**
+     * Defines what user can say to be recognised as a select actor intent.
+     */
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("not @myLanguage","not talk @myLanguage","not speak @myLanguage", "not from @myLanguage", "don't like @myLanguage") // Write more examples.
+    }
+}
 
-// RequestOptions
-
-// RequestActorOptions
-
-// RequestXxxxOptions
+class RequestOptions():Intent(){
+    override fun getExamples(lang: Language): List<String> {
+        return listOf("What are my options?", "What are my preferences?", "What can I say?", "What can i choose between?","What can I do?") // Write more examples.
+    }
+}

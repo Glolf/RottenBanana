@@ -80,7 +80,6 @@ val User.rating : RatingData
     get() = data.getOrPut(RatingData::class.qualifiedName, RatingData())
 
 //year.
-
 class YearData(
         var lowerYear : Number? = Number(),
         var upperYear : Number? = Number()
@@ -88,7 +87,7 @@ class YearData(
 
 val User.yearPreferences : YearData
     get() = data.getOrPut(YearData::class.qualifiedName, YearData())
-// rest of entities.
+
 
 class MovieListData(
         var movieList : List<String> = listOf("Movie1", "Movie2", "Movie3")
@@ -97,20 +96,21 @@ val User.movieList : MovieListData
     get() = data.getOrPut(MovieListData::class.qualifiedName, MovieListData())
 
 var User.movieIndex by NullSafeUserDataDelegate { 0 }
+var User.anyPreferences by NullSafeUserDataDelegate { false }
 
 // Companies
 class CompanyData(
         /**
          * "Variable" for storing selected actors
          */
-        var actors : ActorList = ActorList()
+        var companies : CompanyList = CompanyList()
 )
 
 class NotCompanyData(
         /**
          * "Variable" for storing deselected actors
          */
-        var actors : ActorList = ActorList()
+        var companies : CompanyList = CompanyList()
 )
 
 val User.selectedCompanies : CompanyData
@@ -131,14 +131,14 @@ class LanguageData(
         /**
          * "Variable" for storing selected actors
          */
-        var actors : ActorList = ActorList()
+        var myLanguages : OrigLanguageList = OrigLanguageList()
 )
 
 class NotLanguageData(
         /**
          * "Variable" for storing deselected actors
          */
-        var actors : ActorList = ActorList()
+        var myLanguages : OrigLanguageList = OrigLanguageList()
 )
 
 val User.selectedLanguages : LanguageData
@@ -152,6 +152,34 @@ val User.deselectedLanguages : NotLanguageData
      * "Variable" for storing deselected actors (can't have same class as selectedActors).
      */
     get() = data.getOrPut(NotLanguageData::class.qualifiedName,NotLanguageData())
+
+
+// Directors
+class DirectorData(
+        /**
+         * "Variable" for storing selected actors
+         */
+        var directors : DirectorList = DirectorList()
+)
+
+class NotDirectorData(
+        /**
+         * "Variable" for storing deselected actors
+         */
+        var directors : DirectorList = DirectorList()
+)
+
+val User.selectedDirectors : DirectorData
+    /**
+     * "Variable" for storing selected actors
+     */
+    get() = data.getOrPut(DirectorData::class.qualifiedName, DirectorData())
+
+val User.deselectedDirectors : NotDirectorData
+    /**
+     * "Variable" for storing deselected actors (can't have same class as selectedActors).
+     */
+    get() = data.getOrPut(NotDirectorData::class.qualifiedName,NotDirectorData())
 
 
 
@@ -179,6 +207,18 @@ fun User.preferences() : String {
         "genres" to mapToString(mapOf(
            "selected" to this.selectedGenres.genres.list.map({"\"$it\""}).toString(),
            "deselected" to this.deselectedGenres.genres.list.map({"\"$it\""}).toString()
+        )),
+        "company" to mapToString(mapOf(
+                "selected" to this.selectedCompanies.companies.list.map({"\"$it\""}).toString(),
+                "deselected" to this.deselectedCompanies.companies.list.map({"\"$it\""}).toString()
+        )),
+        "language" to mapToString(mapOf(
+                "selected" to this.selectedLanguages.myLanguages.list.map({"\"$it\""}).toString(),
+                "deselected" to this.deselectedLanguages.myLanguages.list.map({"\"$it\""}).toString()
+        )),
+        "director" to mapToString(mapOf(
+                "selected" to this.selectedDirectors.directors.list.map({"\"$it\""}).toString(),
+                "deselected" to this.deselectedDirectors.directors.list.map({"\"$it\""}).toString()
         )),
         "years" to mapToString(mapOf(
            "lower" to this.yearPreferences.lowerYear.toString(),

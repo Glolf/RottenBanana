@@ -1,0 +1,6 @@
+17:01:18 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+17:01:19 [MovierecomenderSkill] INFO  MovierecomenderSkill:166 - Starting skill
+17:01:26 [pool-3-thread-1] ERROR IdfMultiIntentClassifier:249 - Could not find class for entity @director in SelectDirector
+17:01:26 [pool-3-thread-1] ERROR IdfMultiIntentClassifier:249 - Could not find class for entity @director in DeselectDirector
+17:01:26 [pool-3-thread-1] ERROR IdfMultiIntentClassifier:249 - Could not find class for entity @company in SelectCompany
+17:01:35 [EventSystem] INFO  MovierecomenderSkill:184 - Terminating skill

@@ -1,0 +1,18 @@
+16:57:31 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+16:57:31 [MovierecomenderSkill] INFO  MovierecomenderSkill:166 - Starting skill
+16:57:37 [ErrorLoggingThread] ERROR MovierecomenderSkill:459 - Exception in thread "MovierecomenderSkill" java.lang.IllegalArgumentException: Class should have a single no-arg constructor: class furhatos.app.movierecomender.nlu.SelectLanguage
+	at kotlin.reflect.full.KClasses.createInstance(KClasses.kt:281)
+	at furhatos.app.movierecomender.flow.InteractionKt$OverviewState$1.invoke(interaction.kt:1404)
+	at furhatos.app.movierecomender.flow.InteractionKt$OverviewState$1.invoke(interaction.kt)
+	at furhatos.flow.kotlin.State.makeState$furhat_commons(State.kt:100)
+	at furhatos.flow.kotlin.StateBuilder.makeState$furhat_commons(StateBuilder.kt:300)
+	at furhatos.flow.kotlin.State.makeState$furhat_commons(State.kt:101)
+	at furhatos.flow.kotlin.StateRunner.<init>(StateRunner.kt:19)
+	at furhatos.flow.kotlin.StateRunner.<init>(StateRunner.kt:18)
+	at furhatos.flow.kotlin.Flow.tailRecRun(Flow.kt:145)
+	at furhatos.flow.kotlin.Flow.run(Flow.kt:110)
+	at furhatos.app.movierecomender.MovierecomenderSkill.start(main.kt:9)
+	at furhatos.skills.Skill.initializeSkill(Skill.java:169)
+	at furhatos.skills.Skill.lambda$startSkill$2(Skill.java:227)
+	at java.lang.Thread.run(Thread.java:748)
+
