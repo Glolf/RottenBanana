@@ -118,14 +118,11 @@ val OverviewState : State = state(Interaction){
         }
     }
 
-    // Intents.....
 
-    // RequestOptions - actor, genre, year, ....
+    // TODO Add companies and languages
 
-    // requestActorOptions - some random actors that are available
-
-    // requestGenreOptions - genres available.
-
+    // TODO - Say the current preferences.
+    
     // Current preferences. (do we want this??)
     // Change preferences (Do we want this??)
 }
@@ -289,6 +286,7 @@ val MainState : State = state(OverviewState){
                 +" The movie should be created before ${users.current.yearPreferences.upperYear}."
             }
             //+ "Enjoy your movie!"
+            // TODO Add companies and languages
         }
         goto(MovieRecommendation)
         //goto(Idle)
@@ -722,3 +720,5 @@ fun YearSelect(lowerYear : Number?, upperYear:Number?) : State = state(OverviewS
     }
 
 }
+
+// TODO Add companies and languages
