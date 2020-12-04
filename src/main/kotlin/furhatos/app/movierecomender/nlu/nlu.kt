@@ -35,7 +35,29 @@ class Actor : EnumEntity(stemming = true, speechRecPhrases = true){
 }
 */
 
+class Companies : EnumEntity(stemming = true, speechRecPhrases = true){
+    /**
+     * Defines what an actor is from file
+     */
+    override fun getEnum(lang: Language): List<String> {
+        val path = System.getProperty("user.dir")
+        //println("Using: $path/data/actors.csv")
+        //return File("data/companies.csv").useLines {it.toList()}
+        return listOf("Disney","Pixar","Warner Bros") // List imported from database
+    }
+}
 
+class origLanguage : EnumEntity(stemming = true, speechRecPhrases = true){
+    /**
+     * Defines what an actor is from file
+     */
+    override fun getEnum(lang: Language): List<String> {
+        val path = System.getProperty("user.dir")
+        //println("Using: $path/data/actors.csv")
+        //return File("data/languages.csv").useLines {it.toList()}
+        return listOf("English","Swedish","German") // List imported from database
+    }
+}
 
 
 class Genre: EnumEntity(stemming = true, speechRecPhrases = true) {
@@ -63,6 +85,7 @@ class Genre: EnumEntity(stemming = true, speechRecPhrases = true) {
                 "War:War",
                 "Western:Western") //Import from database.
     }
+
 
     override fun toText(): String {
         return generate("$value")

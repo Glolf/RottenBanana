@@ -36,7 +36,6 @@ val User.deselectedActors : NotActorsData
     get() = data.getOrPut(NotActorsData::class.qualifiedName,NotActorsData())
 
 
-
 // Genre
 class GenreData(
         /**
@@ -98,6 +97,62 @@ val User.movieList : MovieListData
     get() = data.getOrPut(MovieListData::class.qualifiedName, MovieListData())
 
 var User.movieIndex by NullSafeUserDataDelegate { 0 }
+
+// Companies
+class CompanyData(
+        /**
+         * "Variable" for storing selected actors
+         */
+        var actors : ActorList = ActorList()
+)
+
+class NotCompanyData(
+        /**
+         * "Variable" for storing deselected actors
+         */
+        var actors : ActorList = ActorList()
+)
+
+val User.selectedCompanies : CompanyData
+    /**
+     * "Variable" for storing selected actors
+     */
+    get() = data.getOrPut(CompanyData::class.qualifiedName, CompanyData())
+
+val User.deselectedCompanies : NotCompanyData
+    /**
+     * "Variable" for storing deselected actors (can't have same class as selectedActors).
+     */
+    get() = data.getOrPut(NotCompanyData::class.qualifiedName,NotCompanyData())
+
+
+// Languages
+class LanguageData(
+        /**
+         * "Variable" for storing selected actors
+         */
+        var actors : ActorList = ActorList()
+)
+
+class NotLanguageData(
+        /**
+         * "Variable" for storing deselected actors
+         */
+        var actors : ActorList = ActorList()
+)
+
+val User.selectedLanguages : LanguageData
+    /**
+     * "Variable" for storing selected actors
+     */
+    get() = data.getOrPut(LanguageData::class.qualifiedName, LanguageData())
+
+val User.deselectedLanguages : NotLanguageData
+    /**
+     * "Variable" for storing deselected actors (can't have same class as selectedActors).
+     */
+    get() = data.getOrPut(NotLanguageData::class.qualifiedName,NotLanguageData())
+
 
 
 fun mapToString(m : Map <String, String>) : String {
