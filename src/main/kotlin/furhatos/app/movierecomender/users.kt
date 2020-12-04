@@ -1,6 +1,7 @@
 package furhatos.app.movierecomender
 
 import furhatos.app.movierecomender.nlu.*
+import furhatos.flow.kotlin.NullSafeUserDataDelegate
 import furhatos.nlu.common.Date
 import furhatos.records.User
 import furhatos.nlu.common.Number
@@ -41,14 +42,14 @@ class GenreData(
         /**
          * "Variable" for storing selected genres
          */
-        var genres : GenreList = GenreList() // TODO - The class is found in genres.value. Note to when we export
+        var genres : GenreList = GenreList()
 )
 
 class NotGenreData(
         /**
          * "Variable" for storing deselected genres
          */
-        var genres : GenreList = GenreList() // TODO - The class is found in genres.value. Note to when we export
+        var genres : GenreList = GenreList()
 )
 
 val User.selectedGenres : GenreData
@@ -89,6 +90,14 @@ class YearData(
 val User.yearPreferences : YearData
     get() = data.getOrPut(YearData::class.qualifiedName, YearData())
 // rest of entities.
+
+class MovieListData(
+        var movieList : List<String> = listOf("Movie1", "Movie2", "Movie3")
+)
+val User.movieList : MovieListData
+    get() = data.getOrPut(MovieListData::class.qualifiedName, MovieListData())
+
+var User.movieIndex by NullSafeUserDataDelegate { 0 }
 
 
 fun mapToString(m : Map <String, String>) : String {

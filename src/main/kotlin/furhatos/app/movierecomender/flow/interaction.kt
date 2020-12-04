@@ -13,9 +13,14 @@ val Start : State = state(Interaction) {
     onEntry {
         furhat.say {
             random{
-                + "Hello"
+                + "Hello!"
                 + "Hey, it's movie time!"
-                + "Greetings"
+                + "Greetings!"
+            }
+            + " "
+            random{
+                + "I'm Mr. Rotten."
+                + "My name is Mr. Rotten."
             }
         }
         println(users.current.preferences())
@@ -140,7 +145,7 @@ val FirstState : State = state(OverviewState){
     onEntry {
         furhat.ask({
             random {
-                +"Do you want a movie recommendation?"
+                + "Do you want a movie recommendation?"
                 + "Want a recommendation for what movie to see?"
                 + "Can I recommend you a movie?"
             }
@@ -155,6 +160,7 @@ val FirstState : State = state(OverviewState){
                 + "Wonderful!"
                 + "Ok!"
             }
+            +" "
             random{
                 + "What are your movie preferences?"
                 + "Any preferences for your movie?"
@@ -210,9 +216,8 @@ val MainState : State = state(OverviewState){
                    + "Maybe a rating?"
                }
                if (users.current.yearPreferences.lowerYear?.value == null || users.current.yearPreferences.upperYear?.value == null) {
-                   + "Perhaps a limit for release year?"
-                   + "Maybe a limit release year?"
-                   + "When should the move have been released?"
+                   + "Maybe the movie should be released before or after a specific year?"
+                   + "Maybe the movie should be released between two years?"
                }
                 // Other entities.
             }
@@ -240,9 +245,8 @@ val MainState : State = state(OverviewState){
                     + "Maybe a rating?"
                 }
                 if (users.current.yearPreferences.lowerYear?.value == null || users.current.yearPreferences.upperYear?.value == null) {
-                    + "Perhaps a limit for release year?"
-                    + "Maybe a limit release year?"
-                    + "When should the move have been released?"
+                    + "Maybe the movie should be released before or after a specific year?"
+                    + "Maybe the movie should be released between two years?"
                 }
             }
         })
@@ -268,31 +272,101 @@ val MainState : State = state(OverviewState){
                 +"The genre shouldn't be: ${users.current.deselectedGenres.genres}."
             }
             if (!users.current.selectedActors.actors.list.isNullOrEmpty()) {
-                + "You want to see ${users.current.selectedActors.actors}."
+                + "You want to see: ${users.current.selectedActors.actors}."
             }
             if (!users.current.deselectedActors.actors.list.isNullOrEmpty()) {
-                + "You don't want to see ${users.current.deselectedActors.actors}."
+                + "You don't want to see: ${users.current.deselectedActors.actors}."
             }
             if (users.current.rating.ratingVal?.value != null) {
                 + "The rating should be at least ${users.current.rating.ratingVal}."
             }
 
             if (users.current.yearPreferences.lowerYear?.value != null && users.current.yearPreferences.upperYear?.value != null) {
-                +" The movie should be created in between ${users.current.yearPreferences.lowerYear} and ${users.current.yearPreferences.upperYear}"
+                +" The movie should be created in between ${users.current.yearPreferences.lowerYear} and ${users.current.yearPreferences.upperYear}."
             } else if (users.current.yearPreferences.lowerYear?.value != null) {
-                +" The movie should be created after ${users.current.yearPreferences.lowerYear}"
+                +" The movie should be created after ${users.current.yearPreferences.lowerYear}."
             } else if (users.current.yearPreferences.upperYear?.value != null) {
-                +" The movie should be created before ${users.current.yearPreferences.upperYear}"
+                +" The movie should be created before ${users.current.yearPreferences.upperYear}."
             }
-            + "Enjoy your movie!"
+            //+ "Enjoy your movie!"
         }
-        //goto(movieRecomendation)
-        goto(Idle)
+        goto(MovieRecommendation)
+        //goto(Idle)
     }
 
 
 
 }
+
+val MovieRecommendation : State = state(Interaction){
+    onEntry{
+        /*TODO - Function to send preferences and recive list of movies. The list of movies shoul be stored in
+        *  users.current.movieList.movieList(.list) */
+
+        // suggest movie, does this sound good?
+        val movieIndex = users.current.movieIndex
+        val movie = users.current.movieList.movieList[movieIndex]
+
+        furhat.say{random{
+            +"I have found a movie for you: "
+            + "I recommend you to watch this movie: "
+        }
+            + " ${movie}."
+        }
+        furhat.ask({random{
+            + "Do you think that would be a good one for you?"
+            + "Do you want to see that movie?"
+        }
+        })
+
+    }
+
+    onResponse<Yes> {
+        furhat.say{random{
+            +"Wonderful, have a lovely time!"
+            +"Great! Enjoy your movie!"
+            + "Lovely! Have a great time!"
+        }}
+    }
+
+    onResponse<No> {
+        users.current.movieIndex += 1
+        val movieIndex = users.current.movieIndex
+        val listSize = users.current.movieList.movieList.size
+
+        if (users.current.movieIndex >= listSize) {
+            furhat.say("I don't have any more movies for you. You can come back later and we can see if we can find a movie for you. Goodbye.")
+            // TODO - FRIDA Expand this text.
+            goto(Idle)
+        }else if (users.current.movieIndex >= listSize-1) {
+            val movie = users.current.movieList.movieList[movieIndex]
+            furhat.say("This is the last movie that I can recommend you: $movie")
+            furhat.ask({
+                random {
+                    +"Do you think that would be a good one for you?"
+                    +"Do you want to see that movie?"
+                }
+            })
+        } else {
+            val movie = users.current.movieList.movieList[movieIndex]
+            furhat.say {
+                random {
+                    +"Oh, sorry to hear that. Here is another movie for you:"
+                    +"No worries, here is another movie"
+                }
+                +" ${movie}."
+            }
+            furhat.ask({
+                random {
+                    +"Do you think that would be a good one for you?"
+                    +"Do you want to see that movie?"
+                }
+            })
+
+        }
+    }
+}
+
 
 fun SelectActor(actors : ActorList) : State = state(OverviewState){
     /**
@@ -309,11 +383,17 @@ fun SelectActor(actors : ActorList) : State = state(OverviewState){
     onEntry{
         //furhat.say("Ok, I add ${actors.text} to your preferred actors")
         actors.list.forEach{
-            println(it)
-            users.current.selectedActors.actors.list.add(it)
-            println(users.current.preferences())
+            if (!users.current.selectedActors.actors.list.contains(it)) {
+                users.current.selectedActors.actors.list.add(it)
+            }
+
+            if (users.current.deselectedActors.actors.list.contains(it)) {
+                users.current.deselectedActors.actors.list.remove(it)
+                furhat.say{ random{+"You said before that you don't want to see ${it}, I assume you have changed your mind."
+                    +"Changing our minds, are we? You said you didn't want to see ${it}. I have changed your preferences. "}}
+            }
         }
-        furhat.say("You wish to see ${users.current.selectedActors.actors}")
+        furhat.say("You wish to see: ${users.current.selectedActors.actors}.")
         furhat.ask({
             random{
                 + "Any other actors you would like to see?"
@@ -334,8 +414,9 @@ fun SelectActor(actors : ActorList) : State = state(OverviewState){
     onResponse<Yes>{
         furhat.ask({
             random{
-                + "Who else do you want to see?"
-                + "Any other preferred actors?"
+                + "Whom?"
+                + "Who is it?"
+                + "Whom would you like to see?"
             }
         })
     }
@@ -367,10 +448,17 @@ fun DeselectActor(actors : ActorList) : State = state(OverviewState){
     onEntry{
         //furhat.say("Ok, I add ${actors.text} to your preferred actors")
         actors.list.forEach{
-            println(it)
-            users.current.deselectedActors.actors.list.add(it)
+            if (!users.current.deselectedActors.actors.list.contains(it)) {
+                users.current.deselectedActors.actors.list.add(it)
+            }
+
+            if (users.current.selectedActors.actors.list.contains(it)) {
+                users.current.selectedActors.actors.list.remove(it)
+                furhat.say{ random{+"You said before that you want to see ${it}, I assume you have changed your mind."
+                    +"Changing our minds, are we? You said you want to see ${it}."}}
+            }
         }
-        furhat.say("Ok, I have noted that you don't wish to see ${users.current.deselectedActors.actors}")
+        furhat.say("I have noted that you don't wish to see ${users.current.deselectedActors.actors}")
         furhat.ask({
             random{
                 + "Any actors you would like to see?"
@@ -440,7 +528,7 @@ fun SelectGenre(genres : GenreList) : State = state(OverviewState){
             }
 
         }
-        furhat.say("You wish to see the folowing genres ${users.current.selectedGenres.genres}")
+        furhat.say("You wish to see the following genres: ${users.current.selectedGenres.genres}")
         furhat.ask({
             random{
                 + "Any other genres you would like to see?"
@@ -501,10 +589,10 @@ fun DeselectGenre(genres : GenreList) : State = state(OverviewState){
             if (users.current.selectedGenres.genres.list.contains(it)) {
                 users.current.selectedGenres.genres.list.remove(it)
                 furhat.say{ random{+"You said before that you want to see ${it}, I assume you have changed your mind."
-                    +"Changing our minds, are we? You said you wanted to see ${it}. I have changed your preferences. "}}
+                    +"Changing our minds, are we? You said you wanted to see ${it}. "}}
             }
         }
-        furhat.say("Ok, I have noted that you don't wish to see movies with the genre ${users.current.deselectedGenres.genres}")
+        furhat.say("I have noted that you don't wish to see movies with the genre: ${users.current.deselectedGenres.genres}")
         furhat.ask({
             random{
                 + "Any genres you would like to see?"
@@ -587,7 +675,6 @@ fun YearSelect(lowerYear : Number?, upperYear:Number?) : State = state(OverviewS
 
         val l = lowerYear?.value
         val u = upperYear?.value
-
         if (l != null){
             if (l > 2016){
                 furhat.say{+ "Sorry, the last movie in my database was created 2016"}
@@ -603,18 +690,26 @@ fun YearSelect(lowerYear : Number?, upperYear:Number?) : State = state(OverviewS
                 users.current.yearPreferences.upperYear = upperYear
             }
         }
-
+        var notSayDouble = false // We have not changed order for ll and uu
         val ll = users.current.yearPreferences.lowerYear?.value
         val uu = users.current.yearPreferences.upperYear?.value
-        if (ll != null || uu != null) {
+        if (uu!=null && ll!=null && uu < ll){
+            users.current.yearPreferences.lowerYear = Number(uu)
+            users.current.yearPreferences.upperYear = Number(ll)
+            furhat.say{
+                +"It seems like your year specifications for release year is hard to fulfil. "
+                +"I'll reset it and you can start over with your specifications for release year."
+            }
+            users.current.yearPreferences.upperYear = null
+            users.current.yearPreferences.lowerYear = null
+            notSayDouble = true
+        }
+
+        if (!notSayDouble && (ll != null || uu != null)) {
             furhat.say {
                 +"You wish to see a movie"
                 if (ll != null && uu != null) {
-                    if (uu < ll){
-                        users.current.yearPreferences.lowerYear = Number(uu)
-                        users.current.yearPreferences.upperYear = Number(ll)
-                        // I haven't tested this yet. Also need to check years is within limits.
-                    }
+
                     +" that was created in between ${users.current.yearPreferences.lowerYear} and ${users.current.yearPreferences.upperYear}"
                 } else if (ll != null) {
                     +" that was created after ${users.current.yearPreferences.lowerYear}"

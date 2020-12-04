@@ -101,7 +101,7 @@ class SelectActor(val actors: ActorList? = null) : Intent() {
      * Defines what user can say to be recognised as a select actor intent.
      */
     override fun getExamples(lang: Language): List<String> {
-        return listOf("@actors", "I want to see @actors") // Write more examples.
+        return listOf("@actors", "I want to see @actors", "like @actors", "love @actors") // Write more examples.
     }
 }
 
@@ -110,7 +110,7 @@ class DeselectActor(val actors: ActorList? = null) : Intent() {
      * Defines what user can say to be recognised as a deselect actor intent.
      */
     override fun getExamples(lang: Language): List<String> {
-        return listOf("I don't want to see @actors", "Not @actors", "I don't like @actors") // Write more examples.
+        return listOf("I don't want to see @actors", "Not @actors", "I don't like @actors","hate @actors", "dislike @actors") // Write more examples.
     }
 }
 
@@ -119,7 +119,7 @@ class SelectGenre(val genres: GenreList? = null) : Intent() {
      * Defines what user can say to be recognised as a select genre intent.
      */
     override fun getExamples(lang: Language): List<String> {
-        return listOf("@genres", "I want to see a @genres movie")
+        return listOf("@genres", "I want to see a @genres movie","like @genres", "love @genres")
     }
 }
 
@@ -128,7 +128,7 @@ class DeselectGenre(val genres: GenreList? = null) : Intent() {
      * Defines what user can say to be recognised as a deselect genre intent.
      */
     override fun getExamples(lang: Language): List<String> {
-        return listOf("Not @genres", "I don't want to see a @genres movie", "I don't want to see @genres","I don't like @genres")
+        return listOf("Not @genres", "I don't want to see a @genres movie", "I don't like @genres","hate @genres", "dislike @genres")
     }
 }
 
@@ -138,11 +138,12 @@ class PreferredYears(
         val lowerYear: Number? = null
         ) : Intent(){
     override fun getExamples(lang: Language): List<String> { // It can't listen to older than, I don't know why?!?!
-        return listOf("In @lowerYear","from @lowerYear","older than @upperYear","after @lowerYear", "newer than @lowerYear","before @upperYear","Later than @lowerYear",
-                "Between @lowerYear and @upperYear")/*,"The movie should be before @upperYear", "The movie should be after @lowerYear", ,
-                "I want to see a movie that is newer than @lowerYear","I want to see a movie that is older than @upperYear",
+        return listOf("before @upperYear","In @lowerYear","from @lowerYear","older than @upperYear","after @lowerYear",
+                "newer than @lowerYear","Later than @lowerYear",
+                "Between @lowerYear and @upperYear","The movie should be before @upperYear", "The movie should be after @lowerYear",
+                "I want to see a movie that is newer than @lowerYear","I want to see a movie that is older than @upperYear"
 
-        )*/
+        )
     }
 }
 
