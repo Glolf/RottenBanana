@@ -227,6 +227,8 @@ val FirstState : State = state(OverviewState){
                 + "What are your movie preferences?"
                 + "Any preferences for your movie?"
             }
+            + "You can tell me your preferences for actor, director, spoken language, "
+            + "release year, genre, lowest rating, or production company."
         }
     }
 
@@ -263,7 +265,8 @@ val MainState : State = state(OverviewState){
                 + "Do you have any other preferences for your movie?"
                 + "Are you looking for something else?"
             }
-           random{
+            +""
+           /*random{
                if (users.current.selectedActors.actors.list.isNullOrEmpty()) {
                    +"Maybe an actor?"
                    +"Perhaps an actor?"
@@ -294,6 +297,8 @@ val MainState : State = state(OverviewState){
                }
                 // Other entities.
             }
+
+            */
         })
     }
 
@@ -304,7 +309,7 @@ val MainState : State = state(OverviewState){
                 + "Any other preferences for your movie?"
             }
             + " "
-            random{
+            /*random{
                 if (users.current.selectedActors.actors.list.isNullOrEmpty()) {
                     +"Maybe an actor?"
                     +"Perhaps an actor?"
@@ -334,6 +339,8 @@ val MainState : State = state(OverviewState){
                     + "Maybe the movie should be released between two years?"
                 }
             }
+
+             */
         })
     }
 
@@ -343,6 +350,8 @@ val MainState : State = state(OverviewState){
                 +"What do you wish for?"
                 +"What are your preferences?"
             }
+            + "You can tell me your preferences for actor, director, spoken language, "
+            + "release year, genre, lowest rating, or production company"
         })
     }
 
@@ -394,13 +403,84 @@ val MainState : State = state(OverviewState){
             //+ "Enjoy your movie!"
         }
         */
-        goto(MovieRecommendation)
+        goto(ConfirmExit)
+        //goto(MovieRecommendation)
         //goto(Idle)
     }
-
-
-
 }
+
+val ConfirmExit: State = state(Interaction){
+    onEntry {
+        furhat.say("You say you are ready for your movie recommendation.")
+        if (users.current.anyPreferences) {
+            furhat.say {
+                +"Your current preferences are the following."
+                if (!users.current.selectedGenres.genres.list.isNullOrEmpty()) {
+                    +"The genre should be: ${users.current.selectedGenres.genres}."
+                }
+                if (!users.current.deselectedGenres.genres.list.isNullOrEmpty()) {
+                    +"The genre shouldn't be: ${users.current.deselectedGenres.genres}."
+                }
+                if (!users.current.selectedActors.actors.list.isNullOrEmpty()) {
+                    +"You want to see: ${users.current.selectedActors.actors}."
+                }
+                if (!users.current.deselectedActors.actors.list.isNullOrEmpty()) {
+                    +"You don't want to see: ${users.current.deselectedActors.actors}."
+                }
+                if (!users.current.selectedLanguages.myLanguages.list.isNullOrEmpty()) {
+                    +"You want the spoken language to be: ${users.current.selectedLanguages.myLanguages}."
+                }
+                if (!users.current.deselectedLanguages.myLanguages.list.isNullOrEmpty()) {
+                    +"You don't want the spoken language to be: ${users.current.deselectedLanguages.myLanguages}."
+                }
+                if (!users.current.selectedDirectors.directors.list.isNullOrEmpty()) {
+                    +"You want to see a movie by: ${users.current.selectedDirectors.directors}."
+                }
+                if (!users.current.deselectedDirectors.directors.list.isNullOrEmpty()) {
+                    +"You don't want to see a movie by: ${users.current.deselectedDirectors.directors}."
+                }
+                if (!users.current.selectedCompanies.companies.list.isNullOrEmpty()) {
+                    +"You want to see a movie created by: ${users.current.selectedCompanies.companies}."
+                }
+                if (!users.current.deselectedCompanies.companies.list.isNullOrEmpty()) {
+                    +"You don't want to see a movie created by: ${users.current.deselectedCompanies.companies}."
+                }
+                if (users.current.rating.ratingVal?.value != null) {
+                    +"The rating should be at least ${users.current.rating.ratingVal}."
+                }
+                if (users.current.yearPreferences.lowerYear?.value != null && users.current.yearPreferences.upperYear?.value != null) {
+                    +" The movie should be created in between ${users.current.yearPreferences.lowerYear} and ${users.current.yearPreferences.upperYear}."
+                } else if (users.current.yearPreferences.lowerYear?.value != null) {
+                    +" The movie should be created after ${users.current.yearPreferences.lowerYear}."
+                } else if (users.current.yearPreferences.upperYear?.value != null) {
+                    +" The movie should be created before ${users.current.yearPreferences.upperYear}."
+                }
+            }
+        } else {
+            furhat.say{"You don't have any preferences yet."}
+        }
+        furhat.ask({random{
+            + "Are you sure you are done with your preferences and ready for your movie recommendation?"
+            + "Last chance to change your mind. Are you sure you are ready for your movie recommendation?"
+        }})
+    }
+
+    onReentry {
+        furhat.ask({random{
+            + "Are you sure you are done with your preferences and ready for your movie recommendation?"
+            + "Last chance to change your mind. Are you sure you are ready for your movie recommendation?"
+        }})
+    }
+
+    onResponse<Yes> {
+        goto(MovieRecommendation)
+    }
+
+    onResponse<No> {
+        goto(MainState)
+    }
+}
+
 
 val MovieRecommendation : State = state(Interaction){
     onEntry{
@@ -412,7 +492,7 @@ val MovieRecommendation : State = state(Interaction){
         val movie = users.current.movieList.movieList[movieIndex]
 
         furhat.say{random{
-            +"I have found a movie for you: "
+            + "I have found a movie for you: "
             + "I recommend you to watch this movie: "
         }
             + " ${movie}."
