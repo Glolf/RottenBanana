@@ -218,7 +218,7 @@ def search(query):
 
     movie_list = search_movie(df, query)
 
-    return json.dumps(movie_list)
+    return movie_list
 
 
 app = Flask(__name__)
@@ -229,7 +229,9 @@ def determine_escalation():
     print(query)
     res = search(query)
     print(res)
-    return json.dumps(res)
+    nl = '\n'.join(res)
+    print(nl)
+    return nl
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=8042)

@@ -6,6 +6,8 @@ import furhatos.nlu.common.Date
 import furhatos.records.User
 import furhatos.nlu.common.Number
 
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 
@@ -229,3 +231,21 @@ fun User.preferences() : String {
 
     return mapToString(prefs)
 };
+
+fun User.recommendations() : List<String> {
+  var prefs = this.preferences()
+  var url = URL("http://localhost:8042/")
+  var con = url.openConnection() as HttpURLConnection;
+  con.setRequestMethod("POST")
+  con.setRequestProperty("Content-Type", "application/json")
+  con.setRequestProperty("Accept", "application/json")
+  con.setDoOutput(true)
+  var os = con.getOutputStream()
+  var bp = prefs.toByteArray(Charsets.UTF_8)
+  os.write(bp, 0, bp.size)
+  var reader = con.getInputStream().reader()
+  var res = reader.readText()
+  reader.close()
+  println(res)
+  return res.lines()
+}

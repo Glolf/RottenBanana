@@ -6,6 +6,8 @@ import furhatos.flow.kotlin.*
 import furhatos.app.movierecomender.nlu.*
 import furhatos.nlu.common.Number
 
+
+
 val Start : State = state(Interaction) {
     /**
      * This is the class where the conversation starts.
@@ -24,6 +26,7 @@ val Start : State = state(Interaction) {
             }
         }
         println(users.current.preferences())
+        println(users.current.recommendations())
         goto(FirstState)
     }
 }
@@ -205,6 +208,7 @@ val FirstState : State = state(OverviewState){
      */
     // User don't want a movie recommendation
     onEntry {
+
         furhat.ask({
             random {
                 + "Do you want a movie recommendation?"
@@ -212,6 +216,8 @@ val FirstState : State = state(OverviewState){
                 + "Can I recommend you a movie?"
             }
         })
+
+
     }
 
     onResponse<Yes> {
@@ -501,6 +507,10 @@ val MovieRecommendation : State = state(Interaction){
         /*TODO - Function to send preferences and recive list of movies. The list of movies should be stored in
         *  users.current.movieList.movieList(.list) */
 
+
+        println(users.current.preferences())
+
+        users.current.movieList.movieList = users.current.recommendations()
         // suggest movie, does this sound good?
         val movieIndex = users.current.movieIndex
         val movie = users.current.movieList.movieList[movieIndex]
