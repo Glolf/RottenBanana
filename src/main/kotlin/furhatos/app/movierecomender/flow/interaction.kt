@@ -215,7 +215,7 @@ val FirstState : State = state(OverviewState){
     }
 
     onResponse<Yes> {
-        furhat.ask {
+        furhat.say {
             random{
                 + "Great!"
                 + "Lovely!"
@@ -223,13 +223,10 @@ val FirstState : State = state(OverviewState){
                 + "Ok!"
             }
             +" "
-            random{
-                + "What are your movie preferences?"
-                + "Any preferences for your movie?"
-            }
             + "You can tell me your preferences for actor, director, spoken language, "
             + "release year, genre, lowest rating, or production company."
         }
+        goto(MainState)
     }
 
     onResponse<No>{
@@ -259,11 +256,18 @@ val MainState : State = state(OverviewState){
     onEntry{
         println(users.current.preferences())
         furhat.ask({
-            random{
-                + "Any other preferences?"
-                + "More preferences?"
-                + "Do you have any other preferences for your movie?"
-                + "Are you looking for something else?"
+            if (!users.current.anyPreferences){ // False there are no movie preferences yet.
+                random{
+                    + "What are your movie preferences?"
+                    + "What do you wish for in your movie?"
+                }
+            }else {
+                random {
+                    +"Any other preferences?"
+                    +"More preferences?"
+                    +"Do you have any other preferences for your movie?"
+                    +"Are you looking for something else?"
+                }
             }
             +""
            /*random{
@@ -304,9 +308,18 @@ val MainState : State = state(OverviewState){
 
     onReentry{
         furhat.ask({
-            random{
-                + "Do you wish for something else?"
-                + "Any other preferences for your movie?"
+            if (!users.current.anyPreferences){ // False there are no movie preferences yet.
+                random{
+                    + "What are your movie preferences?"
+                    + "What do you wish for in your movie?"
+                }
+            }else {
+                random {
+                    +"Any other preferences?"
+                    +"More preferences?"
+                    +"Do you have any other preferences for your movie?"
+                    +"Are you looking for something else?"
+                }
             }
             + " "
             /*random{
@@ -484,6 +497,7 @@ val ConfirmExit: State = state(Interaction){
 
 val MovieRecommendation : State = state(Interaction){
     onEntry{
+
         /*TODO - Function to send preferences and recive list of movies. The list of movies should be stored in
         *  users.current.movieList.movieList(.list) */
 
@@ -1135,7 +1149,6 @@ fun SelectLanguage(myLanguage : OrigLanguageList) : State = state(OverviewState)
                 + "Any other languages you would like?"
                 + "Do you have more preferred languages?"
             }
-            + "You can choose between German, English, Spanish, French, Italian, and Swedish"
         })
     }
 
@@ -1234,6 +1247,14 @@ fun RequestOptions():State = state(OverviewState) {
             +"You can tell me your preferences for actor, director, spoken language, "
             +"release year, genre, lowest rating, or production company"
         }
+
+        furhat.ask({random{
+            +"Do you want to know your current preferences?"
+            +"Do you wish to hear your current preferences?"
+        }})
+    }
+
+    onResponse<Yes> {
         if (users.current.anyPreferences) {
             furhat.say {
                 +"Your current preferences are the following."
@@ -1278,8 +1299,21 @@ fun RequestOptions():State = state(OverviewState) {
                     +" The movie should be created before ${users.current.yearPreferences.upperYear}."
                 }
             }
+        } else {
+            furhat.say{"You don't have any preferences yet."}
         }
         goto(MainState)
+    }
+
+    onResponse<No> {
+        goto(MainState)
+    }
+
+    onReentry {
+        furhat.ask({random{
+            +"Do you want to know your current preferences?"
+            +"Do you wish to hear your current preferences?"
+        }})
     }
 }
 
