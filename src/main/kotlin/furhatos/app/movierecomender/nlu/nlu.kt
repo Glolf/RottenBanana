@@ -201,7 +201,7 @@ class SelectCompany(val companies: CompanyList? = null) : Intent() {
      * Defines what user can say to be recognised as a select actor intent.
      */
     override fun getExamples(lang: Language): List<String> {
-        return listOf("@companies","By @companies","from @companies", "of @companies", "created by @companies", "like @companies") // Write more examples.
+        return listOf("@companies","By @companies","from @companies", "of @companies", "created by @companies", "like @companies","want @companies") // Write more examples.
     }
 }
 
@@ -210,7 +210,7 @@ class DeselectCompany(val companies: CompanyList? = null) : Intent() {
      * Defines what user can say to be recognised as a select actor intent.
      */
     override fun getExamples(lang: Language): List<String> {
-        return listOf("Not by @companies","not from @companies", "not of @companies", "not created by @companies", "dislike @companies") // Write more examples.
+        return listOf("not @companies","Not by @companies","not from @companies", "not of @companies", "not created by @companies", "dislike @companies","don't want @companies") // Write more examples.
     }
 }
 
@@ -219,7 +219,7 @@ class SelectMyLanguage(val myLanguage: OrigLanguageList? = null) : Intent() {
      * Defines what user can say to be recognised as a select actor intent.
      */
     override fun getExamples(lang: Language): List<String> {
-        return listOf("@myLanguage","talk @myLanguage","speak @myLanguage", "from @myLanguage", "like @myLanguage") // Write more examples.
+        return listOf("@myLanguage","want @myLanguage","talk @myLanguage","speak @myLanguage", "from @myLanguage", "like @myLanguage") // Write more examples.
     }
 }
 
@@ -228,7 +228,7 @@ class DeselectMyLanguage(val myLanguage: OrigLanguageList? = null) : Intent() {
      * Defines what user can say to be recognised as a select actor intent.
      */
     override fun getExamples(lang: Language): List<String> {
-        return listOf("not @myLanguage","not talk @myLanguage","not speak @myLanguage", "not from @myLanguage", "don't like @myLanguage") // Write more examples.
+        return listOf("not @myLanguage","don't want @myLanguage","not talk @myLanguage","not speak @myLanguage", "not from @myLanguage", "don't like @myLanguage") // Write more examples.
     }
 }
 
