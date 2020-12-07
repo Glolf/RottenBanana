@@ -75,22 +75,22 @@ class Genre: EnumEntity(stemming = true, speechRecPhrases = true) {
         return listOf("Action:Action",
                "Adventure:Adventure",
                 "Animation:Animation",
-                "Comedy:Comedy,Funny",
+                "Comedy:Comedy,Funny, humor, fun",
                 "Crime:Crime",
-                "Documentary:Documentary",
+                "Documentary:Documentary, true, real life",
                 "Drama:Drama",
                 "Family:Family",
                 "Fantasy:Fantasy",
                 "History:History",
-                "Horror:Horror",
-                "Music:Music",
-                "Mystery:Mystery",
+                "Horror:Horror, terror, scary",
+                "Music:Music,singing, musical, dance",
+                "Mystery:Mystery, riddle",
                 "Romance:Romance,Romantic",
                 "Science Fiction:Science Fiction, Sci-fi",
                 "TV_Movie:TV Movie",
                 "Thriller:Thriller",
                 "War:War",
-                "Western:Western") //Import from database.
+                "Western:Western, wild west")
     }
 
 
@@ -165,7 +165,8 @@ class PreferredYears(
         return listOf("before @upperYear","In @lowerYear","from @lowerYear","older than @upperYear","after @lowerYear",
                 "newer than @lowerYear","Later than @lowerYear","from @lowerYear to @upperYear",
                 "Between @lowerYear and @upperYear","The movie should be before @upperYear", "The movie should be after @lowerYear",
-                "I want to see a movie that is newer than @lowerYear","I want to see a movie that is older than @upperYear"
+                "I want to see a movie that is newer than @lowerYear","I want to see a movie that is older than @upperYear",
+                "before @upperYear and after @lowerYear","after @lowerYear and before @upperYear"
 
         )
     }
