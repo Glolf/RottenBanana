@@ -310,7 +310,7 @@ val MainState : State = state(OverviewState){
                         + "What is the lowest rating you could accept?"
                     }
                     if (users.current.yearPreferences.lowerYear?.value == null || users.current.yearPreferences.upperYear?.value == null) {
-                        + "Do you have a preferred range of release years?"
+                        + "What is your preferred range of release years?"
                     }
                 }
             }
@@ -543,18 +543,25 @@ val MovieRecommendation : State = state(Interaction){
         // suggest movie, does this sound good?
         val movieIndex = users.current.movieIndex
         val movie = users.current.movieList.movieList[movieIndex]
-
-        furhat.say{random{
-            + "I have found a movie for you: "
-            + "I recommend you to watch this movie: "
+        //val listSize = users.current.movieList.movieList.size
+        if (movie == ""){
+            furhat.say("Sorry I don't have any movie to recommend you that fit all your preferences. Start over, and be less picky!")
+            goto(Idle)
+        } else {
+            furhat.say {
+                random {
+                    +"I have found a movie for you: "
+                    +"I recommend you to watch this movie: "
+                }
+                +" ${movie}."
+            }
+            furhat.ask({
+                random {
+                    +"Do you think that would be a good one for you?"
+                    +"Do you want to see that movie?"
+                }
+            })
         }
-            + " ${movie}."
-        }
-        furhat.ask({random{
-            + "Do you think that would be a good one for you?"
-            + "Do you want to see that movie?"
-        }
-        })
 
     }
 
@@ -1184,7 +1191,7 @@ fun SelectLanguage(myLanguage : OrigLanguageList) : State = state(OverviewState)
                 + "Any other languages you would like?"
                 + "Do you have more preferred languages?"
             }
-            + "You can choose between German, English, Spanish, French, Italian, and Swedish"
+
         })
     }
 
@@ -1194,6 +1201,7 @@ fun SelectLanguage(myLanguage : OrigLanguageList) : State = state(OverviewState)
                 + "Any other languages you would like?"
                 + "Do you have more preferred languages?"
             }
+            + "You can choose between German, English, Spanish, French, Italian, and Swedish"
         })
     }
 

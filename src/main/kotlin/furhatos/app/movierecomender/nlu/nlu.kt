@@ -168,7 +168,8 @@ class PreferredYears(
                 "newer than @lowerYear","Later than @lowerYear","from @lowerYear to @upperYear",
                 "Between @lowerYear and @upperYear","The movie should be before @upperYear", "The movie should be after @lowerYear",
                 "I want to see a movie that is newer than @lowerYear","I want to see a movie that is older than @upperYear",
-                "before @upperYear and after @lowerYear","after @lowerYear and before @upperYear, @lowerYear and @upperYear"
+                "before @upperYear and after @lowerYear","after @lowerYear and before @upperYear", "@lowerYear and @upperYear",
+                "@lowerYear to @upperYear"
         )
     }
 }
