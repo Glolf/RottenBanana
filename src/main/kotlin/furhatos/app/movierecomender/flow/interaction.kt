@@ -121,6 +121,7 @@ val OverviewState : State = state(Interaction){
         }
     }
 
+    /*
     // Director intent
     onResponse<SelectDirector>{
 
@@ -143,6 +144,9 @@ val OverviewState : State = state(Interaction){
         }
     }
 
+     */
+
+    /*
     // Companies intent
     onResponse<SelectCompany>{
 
@@ -164,6 +168,8 @@ val OverviewState : State = state(Interaction){
             propagate() // To handle null reference, as in fruit example.
         }
     }
+
+     */
 
 
     // Language intent
@@ -280,14 +286,19 @@ val MainState : State = state(OverviewState){
                         +"Who is your favorite actor?"
                         +"Which actor do you want to see?"
                     }
+                    /*
                     if (users.current.selectedDirectors.directors.list.isNullOrEmpty()) {
                         +"Who is your favorite director?"
                         +"Who should have created your movie?"
                     }
+                    */
+
+                    /*
                     if (users.current.selectedCompanies.companies.list.isNullOrEmpty()) {
                         +"Any favorite production company?"
                         +"Which company should have produced your movie?"
                     }
+                     */
                     if (users.current.selectedGenres.genres.list.isNullOrEmpty()) {
                         +"What is your favoritue genre?"
                         +"Which genre do you want to see?"
@@ -304,39 +315,6 @@ val MainState : State = state(OverviewState){
                 }
             }
             +""
-           /*random{
-               if (users.current.selectedActors.actors.list.isNullOrEmpty()) {
-                   +"Maybe an actor?"
-                   +"Perhaps an actor?"
-               }
-               if (users.current.selectedDirectors.directors.list.isNullOrEmpty()) {
-                   +"You can wish for a director."
-                   +"Perhaps a director?"
-               }
-               if (users.current.selectedCompanies.companies.list.isNullOrEmpty()) {
-                   +"You can wish for a company that should have produced the movie."
-                   +"Perhaps a company that produced the movie?"
-               }
-               if (users.current.selectedGenres.genres.list.isNullOrEmpty()) {
-                   +"Perhaps a genre?"
-                   +"Maybe a genre?"
-               }
-               if (users.current.selectedLanguages.myLanguages.list.isNullOrEmpty()) {
-                   +"Perhaps a preferred language? You can choose between German, English, Spanish, French, Italian, and Swedish."
-                   +"Maybe a language? You can choose between German, English, Spanish, French, Italian, and Swedish."
-               }
-               if (users.current.rating.ratingVal?.value == null) {
-                   + "Perhaps a rating limit?"
-                   + "Maybe a rating?"
-               }
-               if (users.current.yearPreferences.lowerYear?.value == null || users.current.yearPreferences.upperYear?.value == null) {
-                   + "Maybe the movie should be released before or after a specific year?"
-                   + "Maybe the movie should be released between two years?"
-               }
-                // Other entities.
-            }
-
-            */
         })
     }
 
@@ -397,8 +375,8 @@ val MainState : State = state(OverviewState){
                 +"What do you wish for?"
                 +"What are your preferences?"
             }
-            + "You can tell me your preferences for actor, director, spoken language, "
-            + "release year, genre, lowest rating, or production company"
+            + "You can tell me your preferences for actor, spoken language, "
+            + "release year, genre, or lowest rating"
         })
     }
 
@@ -462,39 +440,66 @@ val ConfirmExit: State = state(Interaction){
         if (users.current.anyPreferences) {
             furhat.say {
                 +"Your current preferences are the following."
-                if (!users.current.selectedGenres.genres.list.isNullOrEmpty()) {
+
+                //genre
+                if (!users.current.selectedGenres.genres.list.isNullOrEmpty() && !users.current.deselectedGenres.genres.list.isNullOrEmpty()) {
+                    +"The genre should be: ${users.current.selectedGenres.genres}, and not: ${users.current.deselectedGenres.genres}."
+                }
+                else if (!users.current.selectedGenres.genres.list.isNullOrEmpty()) {
                     +"The genre should be: ${users.current.selectedGenres.genres}."
                 }
-                if (!users.current.deselectedGenres.genres.list.isNullOrEmpty()) {
+                else if (!users.current.deselectedGenres.genres.list.isNullOrEmpty()) {
                     +"The genre shouldn't be: ${users.current.deselectedGenres.genres}."
                 }
-                if (!users.current.selectedActors.actors.list.isNullOrEmpty()) {
+
+                //actors
+                if (!users.current.selectedActors.actors.list.isNullOrEmpty() && !users.current.deselectedActors.actors.list.isNullOrEmpty()) {
+                    +"You want to see: ${users.current.selectedActors.actors}, and not: ${users.current.deselectedActors.actors}."
+                }
+                else if (!users.current.selectedActors.actors.list.isNullOrEmpty()) {
                     +"You want to see: ${users.current.selectedActors.actors}."
                 }
-                if (!users.current.deselectedActors.actors.list.isNullOrEmpty()) {
+                else if (!users.current.deselectedActors.actors.list.isNullOrEmpty()) {
                     +"You don't want to see: ${users.current.deselectedActors.actors}."
                 }
-                if (!users.current.selectedLanguages.myLanguages.list.isNullOrEmpty()) {
+
+                //Language
+                if (!users.current.selectedLanguages.myLanguages.list.isNullOrEmpty() && !users.current.deselectedLanguages.myLanguages.list.isNullOrEmpty()) {
+                    +"You want the spoken language to be: ${users.current.selectedLanguages.myLanguages}, and not: ${users.current.deselectedLanguages.myLanguages}."
+                }
+                else if (!users.current.selectedLanguages.myLanguages.list.isNullOrEmpty()) {
                     +"You want the spoken language to be: ${users.current.selectedLanguages.myLanguages}."
                 }
-                if (!users.current.deselectedLanguages.myLanguages.list.isNullOrEmpty()) {
+                else if (!users.current.deselectedLanguages.myLanguages.list.isNullOrEmpty()) {
                     +"You don't want the spoken language to be: ${users.current.deselectedLanguages.myLanguages}."
                 }
+                //Director
+                /*
                 if (!users.current.selectedDirectors.directors.list.isNullOrEmpty()) {
                     +"You want to see a movie by: ${users.current.selectedDirectors.directors}."
                 }
                 if (!users.current.deselectedDirectors.directors.list.isNullOrEmpty()) {
                     +"You don't want to see a movie by: ${users.current.deselectedDirectors.directors}."
                 }
+
+                 */
+
+                //Companies
+                /*
                 if (!users.current.selectedCompanies.companies.list.isNullOrEmpty()) {
                     +"You want to see a movie created by: ${users.current.selectedCompanies.companies}."
                 }
                 if (!users.current.deselectedCompanies.companies.list.isNullOrEmpty()) {
                     +"You don't want to see a movie created by: ${users.current.deselectedCompanies.companies}."
                 }
+
+                 */
+                //Rating
                 if (users.current.rating.ratingVal?.value != null) {
                     +"The rating should be at least ${users.current.rating.ratingVal}."
                 }
+
+                //Years
                 if (users.current.yearPreferences.lowerYear?.value != null && users.current.yearPreferences.upperYear?.value != null) {
                     +" The movie should be created in between ${users.current.yearPreferences.lowerYear} and ${users.current.yearPreferences.upperYear}."
                 } else if (users.current.yearPreferences.lowerYear?.value != null) {
@@ -504,7 +509,7 @@ val ConfirmExit: State = state(Interaction){
                 }
             }
         } else {
-            furhat.say{"You don't have any preferences yet."}
+            furhat.say("You don't have any preferences yet.")
         }
         furhat.ask({random{
             + "Do you want to change your preferences?"
@@ -531,10 +536,6 @@ val ConfirmExit: State = state(Interaction){
 
 val MovieRecommendation : State = state(Interaction){
     onEntry{
-
-        /*TODO - Function to send preferences and recive list of movies. The list of movies should be stored in
-        *  users.current.movieList.movieList(.list) */
-
 
         println(users.current.preferences())
 
@@ -587,7 +588,7 @@ val MovieRecommendation : State = state(Interaction){
             furhat.say {
                 random {
                     +"Oh, sorry to hear that. Here is another movie for you:"
-                    +"No worries, here is another movie"
+                    +"No worries, here is another movie: "
                 }
                 +" ${movie}."
             }
@@ -957,7 +958,7 @@ fun YearSelect(lowerYear : Number?, upperYear:Number?) : State = state(OverviewS
     }
 
 }
-
+/*
 fun SelectDirector(directors : DirectorList) : State = state(OverviewState){
     /**
      * If select actor intent detected the state is transfered here.
@@ -1014,6 +1015,10 @@ fun DeselectDirector(directors: DirectorList) : State = state(OverviewState){
     }
 }
 
+
+ */
+
+/*
 fun SelectCompany(company : CompanyList) : State = state(OverviewState){
     /**
      * If select actor intent detected the state is transfered here.
@@ -1144,6 +1149,8 @@ fun DeselectCompany(company : CompanyList) : State = state(OverviewState){
 
 }
 
+
+ */
 
 fun SelectLanguage(myLanguage : OrigLanguageList) : State = state(OverviewState){
     /**
@@ -1282,8 +1289,8 @@ fun DeselectLanguage(myLanguage : OrigLanguageList) : State = state(OverviewStat
 fun RequestOptions():State = state(OverviewState) {
     onEntry {
         furhat.say {
-            +"You can tell me your preferences for actor, director, spoken language, "
-            +"release year, genre, lowest rating, or production company"
+            +"You can tell me your preferences for actor, spoken language, "
+            +"release year, genre, or lowest rating."
         }
 
         furhat.ask({random{
@@ -1296,39 +1303,65 @@ fun RequestOptions():State = state(OverviewState) {
         if (users.current.anyPreferences) {
             furhat.say {
                 +"Your current preferences are the following."
-                if (!users.current.selectedGenres.genres.list.isNullOrEmpty()) {
+                //genre
+                if (!users.current.selectedGenres.genres.list.isNullOrEmpty() && !users.current.deselectedGenres.genres.list.isNullOrEmpty()) {
+                    +"The genre should be: ${users.current.selectedGenres.genres}, and not: ${users.current.deselectedGenres.genres}."
+                }
+                else if (!users.current.selectedGenres.genres.list.isNullOrEmpty()) {
                     +"The genre should be: ${users.current.selectedGenres.genres}."
                 }
-                if (!users.current.deselectedGenres.genres.list.isNullOrEmpty()) {
+                else if (!users.current.deselectedGenres.genres.list.isNullOrEmpty()) {
                     +"The genre shouldn't be: ${users.current.deselectedGenres.genres}."
                 }
-                if (!users.current.selectedActors.actors.list.isNullOrEmpty()) {
+
+                //actors
+                if (!users.current.selectedActors.actors.list.isNullOrEmpty() && !users.current.deselectedActors.actors.list.isNullOrEmpty()) {
+                    +"You want to see: ${users.current.selectedActors.actors}, and not: ${users.current.deselectedActors.actors}."
+                }
+                else if (!users.current.selectedActors.actors.list.isNullOrEmpty()) {
                     +"You want to see: ${users.current.selectedActors.actors}."
                 }
-                if (!users.current.deselectedActors.actors.list.isNullOrEmpty()) {
+                else if (!users.current.deselectedActors.actors.list.isNullOrEmpty()) {
                     +"You don't want to see: ${users.current.deselectedActors.actors}."
                 }
-                if (!users.current.selectedLanguages.myLanguages.list.isNullOrEmpty()) {
+
+                //Language
+                if (!users.current.selectedLanguages.myLanguages.list.isNullOrEmpty() && !users.current.deselectedLanguages.myLanguages.list.isNullOrEmpty()) {
+                    +"You want the spoken language to be: ${users.current.selectedLanguages.myLanguages}, and not: ${users.current.deselectedLanguages.myLanguages}."
+                }
+                else if (!users.current.selectedLanguages.myLanguages.list.isNullOrEmpty()) {
                     +"You want the spoken language to be: ${users.current.selectedLanguages.myLanguages}."
                 }
-                if (!users.current.deselectedLanguages.myLanguages.list.isNullOrEmpty()) {
+                else if (!users.current.deselectedLanguages.myLanguages.list.isNullOrEmpty()) {
                     +"You don't want the spoken language to be: ${users.current.deselectedLanguages.myLanguages}."
                 }
+                //Director
+                /*
                 if (!users.current.selectedDirectors.directors.list.isNullOrEmpty()) {
                     +"You want to see a movie by: ${users.current.selectedDirectors.directors}."
                 }
                 if (!users.current.deselectedDirectors.directors.list.isNullOrEmpty()) {
                     +"You don't want to see a movie by: ${users.current.deselectedDirectors.directors}."
                 }
+
+                 */
+
+                //Companies
+                /*
                 if (!users.current.selectedCompanies.companies.list.isNullOrEmpty()) {
                     +"You want to see a movie created by: ${users.current.selectedCompanies.companies}."
                 }
                 if (!users.current.deselectedCompanies.companies.list.isNullOrEmpty()) {
                     +"You don't want to see a movie created by: ${users.current.deselectedCompanies.companies}."
                 }
+
+                 */
+                //Rating
                 if (users.current.rating.ratingVal?.value != null) {
                     +"The rating should be at least ${users.current.rating.ratingVal}."
                 }
+
+                //Years
                 if (users.current.yearPreferences.lowerYear?.value != null && users.current.yearPreferences.upperYear?.value != null) {
                     +" The movie should be created in between ${users.current.yearPreferences.lowerYear} and ${users.current.yearPreferences.upperYear}."
                 } else if (users.current.yearPreferences.lowerYear?.value != null) {
@@ -1338,7 +1371,7 @@ fun RequestOptions():State = state(OverviewState) {
                 }
             }
         } else {
-            furhat.say{"You don't have any preferences yet."}
+            furhat.say("You don't have any preferences yet.")
         }
         goto(MainState)
     }

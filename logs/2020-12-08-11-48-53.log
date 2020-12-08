@@ -1,0 +1,7 @@
+11:48:54 [Skill] INFO  Skill:139 - Connecting to Furhat server on 0.0.0.0:1932
+11:48:54 [MovierecomenderSkill] INFO  MovierecomenderSkill:166 - Starting skill
+11:48:59 [pool-3-thread-1] ERROR Interpreter: 50 - Could not preload entity furhatos.app.movierecomender.nlu.CompanyList, : No .enu file for Company in language en-US found
+11:48:59 [pool-3-thread-1] ERROR Interpreter: 50 - Could not preload entity furhatos.app.movierecomender.nlu.CompanyList, : No .enu file for Company in language en-US found
+11:49:00 [pool-3-thread-1] ERROR Interpreter: 50 - Could not preload entity furhatos.app.movierecomender.nlu.CompanyList, : No .enu file for Company in language en-US found
+11:49:00 [pool-3-thread-1] ERROR Interpreter: 50 - Could not preload entity furhatos.app.movierecomender.nlu.CompanyList, : No .enu file for Company in language en-US found
+11:49:13 [EventSystem] INFO  MovierecomenderSkill:184 - Terminating skill

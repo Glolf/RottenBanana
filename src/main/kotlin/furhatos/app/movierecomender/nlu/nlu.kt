@@ -19,7 +19,7 @@ class Actor : EnumEntity(stemming = true, speechRecPhrases = true){
     override fun getEnum(lang: Language): List<String> {
         val path = System.getProperty("user.dir")
         //println("Using: $path/data/actors.csv")
-        return File("data/actors.csv").useLines {it.toList()}
+        return File("data/actors2.csv").useLines {it.toList()}
         //return listOf("Johnny Depp", "Tom Cruise", "Kiera Nightly", "Jennifer Lawrence") // List imported from database
     }
 }
@@ -35,6 +35,8 @@ class Company : EnumEntity(stemming = true, speechRecPhrases = true){
         return listOf("Disney","Pixar","Warner Bros") // List imported from database
     }
 }
+
+//class Company : EnumEntity(stemming = true, speechRecPhrases = true)
 
 class OrigLanguage : EnumEntity(stemming = true, speechRecPhrases = true){
     /**
@@ -74,7 +76,7 @@ class Genre: EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
         return listOf("Action:Action",
                "Adventure:Adventure",
-                "Animation:Animation",
+                "Animation:Animation, disney, pixar",
                 "Comedy:Comedy,Funny, humor, fun",
                 "Crime:Crime",
                 "Documentary:Documentary, true, real life",
@@ -85,7 +87,7 @@ class Genre: EnumEntity(stemming = true, speechRecPhrases = true) {
                 "Horror:Horror, terror, scary",
                 "Music:Music,singing, musical, dance",
                 "Mystery:Mystery, riddle",
-                "Romance:Romance,Romantic",
+                "Romance:Romance,Romantic, love",
                 "Science Fiction:Science Fiction, Sci-fi",
                 "TV_Movie:TV Movie",
                 "Thriller:Thriller",
