@@ -229,8 +229,10 @@ val FirstState : State = state(OverviewState){
                 + "Ok!"
             }
             +" "
-            + "You can tell me your preferences for actor, director, spoken language, "
+           /* + "You can tell me your preferences for actor, director, spoken language, "
             + "release year, genre, lowest rating, or production company."
+
+            */
         }
         goto(MainState)
     }
@@ -273,6 +275,32 @@ val MainState : State = state(OverviewState){
                     +"More preferences?"
                     +"Do you have any other preferences for your movie?"
                     +"Are you looking for something else?"
+
+                    if (users.current.selectedActors.actors.list.isNullOrEmpty()) {
+                        +"Who is your favorite actor?"
+                        +"Which actor do you want to see?"
+                    }
+                    if (users.current.selectedDirectors.directors.list.isNullOrEmpty()) {
+                        +"Who is your favorite director?"
+                        +"Who should have created your movie?"
+                    }
+                    if (users.current.selectedCompanies.companies.list.isNullOrEmpty()) {
+                        +"Any favorite production company?"
+                        +"Which company should have produced your movie?"
+                    }
+                    if (users.current.selectedGenres.genres.list.isNullOrEmpty()) {
+                        +"What is your favoritue genre?"
+                        +"Which genre do you want to see?"
+                    }
+                    if (users.current.selectedLanguages.myLanguages.list.isNullOrEmpty()) {
+                        +"Any preferred language? You can choose between English, German, Spanish, French, Italian, and Swedish."
+                    }
+                    if (users.current.rating.ratingVal?.value == null) {
+                        + "What is the lowest rating you could accept?"
+                    }
+                    if (users.current.yearPreferences.lowerYear?.value == null || users.current.yearPreferences.upperYear?.value == null) {
+                        + "Do you have a preferred range of release years?"
+                    }
                 }
             }
             +""
@@ -479,8 +507,8 @@ val ConfirmExit: State = state(Interaction){
             furhat.say{"You don't have any preferences yet."}
         }
         furhat.ask({random{
-            + "Are you sure you are done with your preferences and ready for your movie recommendation?"
-            + "Last chance to change your mind. Are you sure you are ready for your movie recommendation?"
+            + "Do you want to change your preferences?"
+            + "Any changes you would like to make?"
         }})
     }
 
@@ -491,11 +519,11 @@ val ConfirmExit: State = state(Interaction){
         }})
     }
 
-    onResponse<Yes> {
+    onResponse<No> {
         goto(MovieRecommendation)
     }
 
-    onResponse<No> {
+    onResponse<Yes> {
         goto(MainState)
     }
 }

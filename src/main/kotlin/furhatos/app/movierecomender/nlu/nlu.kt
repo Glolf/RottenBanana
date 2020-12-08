@@ -166,8 +166,7 @@ class PreferredYears(
                 "newer than @lowerYear","Later than @lowerYear","from @lowerYear to @upperYear",
                 "Between @lowerYear and @upperYear","The movie should be before @upperYear", "The movie should be after @lowerYear",
                 "I want to see a movie that is newer than @lowerYear","I want to see a movie that is older than @upperYear",
-                "before @upperYear and after @lowerYear","after @lowerYear and before @upperYear"
-
+                "before @upperYear and after @lowerYear","after @lowerYear and before @upperYear, @lowerYear and @upperYear"
         )
     }
 }
@@ -183,7 +182,7 @@ class SelectDirector(val directors: DirectorList? = null) : Intent() {
      * Defines what user can say to be recognised as a select actor intent.
      */
     override fun getExamples(lang: Language): List<String> {
-        return listOf("By @directors","director @directors", "of @directors", "directed by @directors", "created by @directors","like @directors","love @directors") // Write more examples.
+        return listOf("@directors","By @directors","director @directors", "of @directors", "directed by @directors", "created by @directors","like @directors","love @directors") // Write more examples.
     }
 }
 
