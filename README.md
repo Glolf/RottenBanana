@@ -9,6 +9,7 @@ Follow their instructions to set up the Furhat.
 ## Run server and conversational system
 To be able to run the movie recommender system you have to run the python script query_server.py in the background. Make sure you have all required packages installed, you should be able to do the following imports: 
 
+```bash
 import sys
 
 import os
@@ -24,6 +25,7 @@ from flask import Flask
 from flask import request
 
 import json
+```
 
 
 When you have everythin installed and you stand in the folder where the script is, you run it with: python3 query_server.py
