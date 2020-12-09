@@ -31,6 +31,10 @@ import json
 When you have everythin installed and you stand in the folder where the script is, you run it with: python3 query_server.py
 Let that terminal be and start the conversational system. 
 
+## Another server for the movie recommender system is to use the tmdbapi to query.
+To use this, please additionally install the wrapper for the api first: `cd` into `tmdbapi/tmdbv3api` and run `python setup.py install`, and then run the query server under `tmdbapi/tmdbv3api` like this: `python query_server_tmdbapi.py`. This is using a more recent database so may recommend more recent movies.
+
+
 ## Common problems
 * Enter fewer preferences if you don't get any movie recommendation at the end. 
 * If the system don't understand the year preferences, say "in between xxxx and yyyy". 
