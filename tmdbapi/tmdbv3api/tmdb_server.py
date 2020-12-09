@@ -48,7 +48,8 @@ class tmdb_base():
         """
         given a json from furhat, set the searching attributes
         """
-        conv = json.loads(json_)
+        # conv = json.loads(json_)
+        conv = json_ 
         actor = conv["actors"]["selected"] # list.
         genre = conv["genres"]["selected"] # list. 
         without_genre = conv["genres"]["deselected"] # list.
